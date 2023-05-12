@@ -4,6 +4,7 @@
  */
 package histograma;
 
+import static histograma.Formulario.jPanel_rojo;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -13,6 +14,7 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.concurrent.ForkJoinPool;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -121,7 +123,7 @@ public class FormularioHistograma extends JFrame {
             buttonChoose.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    // image.setIcon(new ImageIcon("/Users/armando/foto3.jpg"));
+                    // image.setIcon(new ImageIcon("/users/ramos/foto3.jpg"));
                     JFileChooser fileChooser = new JFileChooser();
                     if (fileChooser.showOpenDialog(labelImage) == JFileChooser.APPROVE_OPTION) {
                         // BufferedImage img = ImageIO.read(fileChooser.getSelectedFile());
@@ -164,6 +166,81 @@ public class FormularioHistograma extends JFrame {
                     }
                 }
             });
+            
+              buttonForkJoin.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    Histograma objHistograma = new Histograma();
+                    try {
+                        long startTime = System.currentTimeMillis();
+                        int[][] histograma = objHistograma.histograma((BufferedImage) ImageIO.read(new File(labelPathImage.getText())));
+                        DibujarGrafico objDibujarGrafico = new DibujarGrafico();
+                        for (int i = 0; i < 5; i++) {
+                            int[] histogramaCanal = new int[256];
+                            System.arraycopy(histograma[i], 0, histogramaCanal, 0, histograma[i].length);
+                            if (i == 0) {
+                                objDibujarGrafico.crearHistograma(histogramaCanal, panelRed, Color.red);
+                            }
+                            if (i == 1) {
+                                objDibujarGrafico.crearHistograma(histogramaCanal, panelGreen, Color.green);
+                            }
+                            if (i == 2) {
+                                objDibujarGrafico.crearHistograma(histogramaCanal, panelBlue, Color.blue);
+                            }
+                            if (i == 4) {
+                                objDibujarGrafico.crearHistograma(histogramaCanal, panelGray, Color.gray);
+                            }
+
+                        }
+                        long endTime = System.currentTimeMillis();
+                        labelForkJoin.setText("Secuencial: " + (endTime - startTime) + " ms");
+
+                    } catch (IOException ex) {
+                        Logger.getLogger(FormularioHistograma.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            });
+            
+            
+             buttonExecutorServices.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    Histograma objHistograma = new Histograma();
+                    try {
+                        long startTime = System.currentTimeMillis();
+                        int[][] histograma = objHistograma.histograma((BufferedImage) ImageIO.read(new File(labelPathImage.getText())));
+                        DibujarGrafico objDibujarGrafico = new DibujarGrafico();
+                        for (int i = 0; i < 5; i++) {
+                            int[] histogramaCanal = new int[256];
+                            System.arraycopy(histograma[i], 0, histogramaCanal, 0, histograma[i].length);
+                            if (i == 0) {
+                                objDibujarGrafico.crearHistograma(histogramaCanal, panelRed, Color.red);
+                            }
+                            if (i == 1) {
+                                objDibujarGrafico.crearHistograma(histogramaCanal, panelGreen, Color.green);
+                            }
+                            if (i == 2) {
+                                objDibujarGrafico.crearHistograma(histogramaCanal, panelBlue, Color.blue);
+                            }
+                            if (i == 4) {
+                                objDibujarGrafico.crearHistograma(histogramaCanal, panelGray, Color.gray);
+                            }
+
+                        }
+                        long endTime = System.currentTimeMillis();
+                        labelExecutorServices.setText("Secuencial: " + (endTime - startTime) + " ms");
+
+                    } catch (IOException ex) {
+                        Logger.getLogger(FormularioHistograma.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            });
+            
+            
+            
+            
+            
+            
         }
     }
 
