@@ -1,7 +1,6 @@
- 
 package histograma;
 
-import static histograma.Formulario.jPanel_rojo;
+
 import java.awt.Color;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
@@ -10,20 +9,19 @@ import javax.swing.JPanel;
 public class executor implements Runnable {
     //variables
     private int[][] histograma;
-    private JPanel rojo, verde, azul, alfa, gris;
+    private JPanel rojo, verde, azul, gris;
     
     
      //constructor
-    public executor(int[][] histograma, JPanel rojo, JPanel verde, JPanel azul, JPanel alfa, JPanel gris) {
+    public executor(int[][] histograma, JPanel rojo, JPanel verde, JPanel azul, JPanel gris) {
         this.histograma = histograma;
         this.rojo = rojo;
         this.verde = verde;
         this.azul = azul;
-        this.alfa = alfa;
         this.gris = gris;
         
     }
-    
+
     
     public void run() {
         DibujarGrafico ObjDibujaHisto=new DibujarGrafico();
@@ -43,17 +41,11 @@ public class executor implements Runnable {
                     case 2:
                         ObjDibujaHisto.crearHistograma(histogramaCanal, azul, Color.blue);
                         break;
-                    case 3:
-                        ObjDibujaHisto.crearHistograma(histogramaCanal, alfa, Color.black);
-                        break;
                     case 4:
                         ObjDibujaHisto.crearHistograma(histogramaCanal, gris, Color.gray);
                         break;
                 }
-         
         }
-   
- 
     }
+    
 }
-  
